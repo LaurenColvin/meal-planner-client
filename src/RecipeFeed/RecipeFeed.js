@@ -7,7 +7,6 @@ const RecipeFeed = (props) => {
     const [title, setTitle] = useState("");
     const [url, setUrl] = useState("");
     const [imgUrl, setImgUrl] = useState("");
-    const [ingredients, setIngredients] = useState([]);
   
     const handleClick = (event) => {
       event.preventDefault();
@@ -63,6 +62,11 @@ const RecipeFeed = (props) => {
         .then((res) => res.json())
         .then((d) => console.log(d));
     };
+
+    // const handleUpdate = (event) => {
+    //     event.preventDefault();
+    //     props.setRecipeId(event.target.id);
+    //   };
   
     const list = recipes.map((recipe, index) => {
       return (
@@ -107,15 +111,15 @@ const RecipeFeed = (props) => {
       <form onSubmit={handleSubmit}>
         <label>
           Recipe Title:
-          <input onChange={titleHandleChange} type="text" value={title} />
+          <input onChange={titleHandleChange} type="text" value={title} required/>
         </label>
         <label>
           URL:
-          <input onChange={urlHandleChange} type="text" value={url} />
+          <input onChange={urlHandleChange} type="text" value={url} required/>
         </label>
         <label>
           Image URL:
-          <input onChange={imgUrlHandleChange} type="text" value={imgUrl} />
+          <input onChange={imgUrlHandleChange} type="text" value={imgUrl} required/>
         </label>
         {/* <label>Ingredients:
           <input onChange={albumHandleChange} type='text' />
