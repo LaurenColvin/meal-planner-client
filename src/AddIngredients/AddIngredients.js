@@ -7,14 +7,37 @@ const AddIngredients = (props) => {
   const [measurement, setMeasurement] = useState("");
   const [item, setItem] = useState("");
   const [category, setCategory] = useState("");
-  const [ingredients, setIngredients] = useState([]);
+  const [allIngredients, setAllIngredients] = useState([]);
 
-  useEffect(() => {
-      fetch(props.urlBase + "/recipe/" + props.recipeId)
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch(() => console.log("oops, error"));
-    }, []);
+  // useEffect(() => {
+  //     fetch(props.urlBase + "/recipe/" + props.recipeId)
+  //       .then((response) => response.json())
+  //       .then((data) => setAllIngredients(data.recipe.ingredients))
+  //       .catch(() => console.log("oops, error"));
+  //   }, []);
+
+  const putIngredients = (ingredient) => {
+      console.log(allIngredients);
+      console.log(ingredient);
+      const ingredientsCopy = [...allIngredients];
+      ingredientsCopy.push(ingredient);
+      let data = {
+        ingredients: ingredientsCopy,
+      }
+    let options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    fetch(props.urlBase + "/recipe/" + props.recipeId, options)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+    fetch(props.urlBase + '/recipe/' + props.recipeId)
+      .then((res) => res.json())
+      .then((data) => setAllIngredients(data.recipe.ingredients));
+  };
 
   const handleSubmit = (event) => {
       event.preventDefault();
@@ -31,13 +54,18 @@ const AddIngredients = (props) => {
         },
         body: JSON.stringify(data),
       };
+      fetch(props.urlBase + '/recipe/' + props.recipeId)
+           .then((res) => res.json())
+           .then((data) => setAllIngredients(data.recipe.ingredients));
       fetch(props.urlBase + "/ingredients", options)
         .then((res) => res.json())
-        .then((d) => console.log(d))
+        .then((data) => putIngredients(data.ingredients))
         .then(() => setItem(""))
         .then(() => setAmount(""))
         .then(() => setMeasurement(""));
+      // props.handleClose()
     };
+
   
     const categoryHandleChange = (event) => {
       event.preventDefault();
@@ -92,22 +120,22 @@ const AddIngredients = (props) => {
         <br/>
         <label>
           Ingredient:
-          <input onChange={ingredientHandleChange} type="text" value={ingredients} required/>
+          <input onChange={ingredientHandleChange} type="text" value={item} required/>
         </label>
         {/* <input type="submit" /> */}
       </form>
       </div>
       </Modal.Body>
         <Modal.Footer>
-          {/* <Button variant="secondary" onClick={props.handleClose}>
-            Close
-          </Button> */}
           <Button variant="secondary" onClick={props.handleClose}>
+            Close
+          </Button>
+          <Button variant="secondary" onClick={handleSubmit}>
             Add Another
           </Button>
-          <Button variant="primary" onClick={props.handleClose}>
+          {/* <Button variant="primary" onClick={handleSubmit}>
             Finish
-          </Button>
+          </Button> */}
         </Modal.Footer>
         </>
     )
