@@ -8,14 +8,12 @@ let urlBase = "http://localhost:3000";
 
 function App() {
 
-  const [recipeId, setRecipeId] = useState("");
-
   return (
     <div className="App">
       <Link to='/recipe-feed'><h1>Meal Planner</h1></Link>
       <ScrollTop>
         <Routes>
-          <Route path="/recipe-feed" element={<RecipeFeed urlBase={urlBase} setRecipeId={setRecipeId}/>}/>
+          <Route path="/recipe-feed" element={<RecipeFeed urlBase={urlBase}/>}/>
         </Routes>
       </ScrollTop>
     </div>
