@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap";
-import ModalComponent from "../Modal/ModalComponent";
+import { Modal } from "react-bootstrap";
+import AddIngredients from "../AddIngredients/AddIngredients";
 
 const RecipeFeed = (props) => {
   const [recipes, setRecipes] = useState([]);
@@ -96,10 +95,7 @@ const RecipeFeed = (props) => {
             alt={recipe.title}
           ></img>
         </a>
-        <button onClick={handleShow}>Modal</button>
-        <Link className="button-link" to="/add-ingredients">
-          <button id={recipe._id}>Add Ingredients</button>
-        </Link>
+        <button onClick={handleShow} id={recipe._id}>Add Ingredients</button>
         <button id={recipe._id} onClick={handleDelete}>
           Delete
         </button>
@@ -136,9 +132,6 @@ const RecipeFeed = (props) => {
             required
           />
         </label>
-        {/* <label>Ingredients:
-          <input onChange={albumHandleChange} type='text' />
-        </label> */}
         <input type="submit" />
       </form>
       <button className="get-recipes" onClick={handleClick}>
@@ -146,7 +139,7 @@ const RecipeFeed = (props) => {
       </button>
       <div className="recipes-container">{list}</div>
       <Modal show={show} onHide={handleClose}>
-        <ModalComponent handleClose={handleClose}/>
+        <AddIngredients handleClose={handleClose}/>
       </Modal>
     </div>
   );
