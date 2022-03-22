@@ -8,9 +8,14 @@ const RecipeFeed = (props) => {
   const [url, setUrl] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [show, setShow] = useState(false);
+  const [recipeId, setRecipeId] = useState("");
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (event) => {
+      event.preventDefault();
+      setShow(true);
+      setRecipeId(event.target.id);
+  };
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -66,11 +71,6 @@ const RecipeFeed = (props) => {
       .then((res) => res.json())
       .then((d) => console.log(d));
   };
-
-  // const handleUpdate = (event) => {
-  //     event.preventDefault();
-  //     props.setRecipeId(event.target.id);
-  //   };
 
   const list = recipes.map((recipe, index) => {
     return (
@@ -139,7 +139,7 @@ const RecipeFeed = (props) => {
       </button>
       <div className="recipes-container">{list}</div>
       <Modal show={show} onHide={handleClose}>
-        <AddIngredients handleClose={handleClose}/>
+        <AddIngredients urlBase={props.urlBase} handleClose={handleClose} recipeId={recipeId}/>
       </Modal>
     </div>
   );
